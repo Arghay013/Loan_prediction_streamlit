@@ -1,6 +1,10 @@
 import streamlit as st
 import pandas as pd
 import pickle
+st.sidebar.title("📊 Model Info")
+st.sidebar.write("Algorithm: Logistic Regression")
+st.sidebar.write("Dataset: Loan Data")
+st.sidebar.success("Model is trained and ready!")
 
 st.title("🏦 Loan Approval Prediction App")
 
@@ -46,11 +50,18 @@ def user_input_form():
     return data
 
 input_df = user_input_form()
-
+st.write("### 🧾 Input Summary")
+st.write(input_df)
 if st.button("Predict Loan Status"):
     prediction = model.predict(input_df)[0]
+    prob = model.predict_proba(input_df)[0][1]
 
+    st.write("### 🔮 Prediction Result")
+    
     if prediction == 1:
         st.success("✅ Loan Approved")
     else:
         st.error("❌ Loan Rejected")
+
+    st.write(f"Approval Probability: **{prob:.2f}**")
+
